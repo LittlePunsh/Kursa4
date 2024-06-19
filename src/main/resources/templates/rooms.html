@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление номерами</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa; /* светлый серый фон */
+        }
+        nav {
+            background-color: #343a40; /* тёмный фон для навигации */
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #ffffff; /* белый текст для ссылок */
+            margin-right: 10px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            color: #f8f9fa; /* изменение цвета при наведении */
+        }
+        main {
+            background-color: #ffffff; /* белый фон для основного контента */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* тень для основного блока */
+        }
+        h3, h4 {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Главная</a> |
+    <a th:href="@{/guests}">Гости</a> |
+    <a th:href="@{/stays}">Путевки</a> |
+    <a th:href="@{/procedures}">Процедуры</a> |
+    <a th:href="@{/rooms}">Номера</a> |
+        <a th:href="@{/treatmentSessions}">Терапевтические сеансы</a> |
+        <a th:href="@{/medicalExaminations}">Медицинские обследования</a>
+</nav>
+<main>
+    <!— Управление номерами —>
+    <h3>Управление номерами:</h3>
+
+    <!— Форма для создания нового номера —>
+    <h4>Добавить новый номер:</h4>
+    <form th:action="@{/rooms/create}" method="post">
+        <label>Номер: <input type="text" name="number"></label><br>
+        <label>Вместимость: <input type="number" name="capacity"></label><br>
+        <label>Цена за день: <input type="number" name="pricePerDay"></label><br>
+        <button type="submit">Добавить</button>
+    </form>
+
+    <br><br>
+
+    <!— Таблица существующих номеров —>
+    <h4>Список номеров:</h4>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Номер</th>
+            <th>Вместимость</th>
+            <th>Цена за день</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!— Вывод списка номеров —>
+        <tr th:each="room : ${rooms}">
+            <td th:text="${room.number}">Номер</td>
+            <td th:text="${room.capacity}">Вместимость</td>
+            <td th:text="${room.pricePerDay}">Цена за день</td>
+            <td>
+                <!— Форма для изменения номера —>
+                <form th:action="@{/rooms/edit/{id}(id=${room.id})}" method="post">
+                    <label>Номер: <input type="text" name="number" th:value="${room.number}"></label><br>
+                    <label>Вместимость: <input type="number" name="capacity" th:value="${room.capacity}"></label><br>
+                    <label>Цена за день: <input type="number" name="pricePerDay" th:value="${room.pricePerDay}"></label><br>
+                    <button type="submit">Сохранить</button>
+                </form>
+                <!— Форма для удаления номера —>
+                <form th:action="@{/rooms/delete/{id}(id=${room.id})}" method="post">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

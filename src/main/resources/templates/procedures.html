@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление процедурами</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f8f9fa; /* светлый серый фон */
+        }
+        nav {
+            background-color: #343a40; /* тёмный фон для навигации */
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        nav a {
+            color: #ffffff; /* белый текст для ссылок */
+            margin-right: 10px;
+            text-decoration: none;
+        }
+        nav a:hover {
+            color: #f8f9fa; /* изменение цвета при наведении */
+        }
+        main {
+            background-color: #ffffff; /* белый фон для основного контента */
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* тень для основного блока */
+        }
+        h3, h4 {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+<nav>
+    <a th:href="@{/}">Главная</a> |
+    <a th:href="@{/guests}">Гости</a> |
+    <a th:href="@{/stays}">Путевки</a> |
+    <a th:href="@{/procedures}">Процедуры</a> |
+    <a th:href="@{/rooms}">Номера</a> |
+    <a th:href="@{/treatmentSessions}">Терапевтические сеансы</a> |
+    <a th:href="@{/medicalExaminations}">Медицинские обследования</a>
+</nav>
+<main>
+    <h3>Управление процедурами:</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="procedure : ${procedures}">
+            <td th:text="${procedure.name}">Название процедуры</td>
+            <td>
+                <form th:action="@{/procedures/edit/{id}(id=${procedure.id})}" method="post">
+                    <input type="text" name="name" th:value="${procedure.name}">
+                    <button type="submit">Сохранить</button>
+                </form>
+                <form th:action="@{/procedures/delete/{id}(id=${procedure.id})}" method="post">
+                    <button type="submit">Удалить</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h4>Добавить новую процедуру:</h4>
+    <form th:action="@{/procedures/create}" method="post">
+        <label>Название: <input type="text" name="name"></label>
+        <button type="submit">Добавить</button>
+    </form>
+</main>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
